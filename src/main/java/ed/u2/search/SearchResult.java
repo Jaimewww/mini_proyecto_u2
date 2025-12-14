@@ -7,9 +7,9 @@ package ed.u2.search;
 
 public class SearchResult {
     private int index;
-    private int value;
+    private Comparable value;
 
-    public SearchResult(int index, int value) {
+    public SearchResult(int index, Comparable value) {
         this.index = index;
         this.value = value;
     }
@@ -18,7 +18,7 @@ public class SearchResult {
         return index;
     }
 
-    public int getValue() {
+    public Comparable getValue() {
         return value;
     }
 
