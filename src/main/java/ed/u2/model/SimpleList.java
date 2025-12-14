@@ -1,0 +1,164 @@
+package ed.u2.model;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.function.Predicate;
+
+public class SimpleList<T> {
+     Node<T> head;
+
+    public SimpleList() {
+        this.head = null;
+    }
+
+    // Inserta nodo al inicio de la lista
+    public void pushFront(T newData){
+        Node<T> newNode = new Node<>(newData);
+        newNode.next = head;
+        head = newNode;
+    }
+
+    // Inserta nodo al final de la lista
+    public void pushBack(T newData){
+        Node<T> newNode = new Node<>(newData);
+        if(head == null){
+            head = newNode;
+            return;
+        }
+        Node<T> last = head;
+        while(last.next != null){
+            last = last.next;
+        }
+        last.next = newNode;
+    }
+
+    // Busca un nodo por su valor y devuelve el valor si lo encuentra
+    public T find(T key){
+        Node<T> current = head;
+        while(current != null){
+            if(current.value == key){
+                return current.value;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+
+    // Elimina un nodo por su valor y devuelve el valor si lo encuentra, -1 si no
+    public T remove(T key){
+        Node<T> current = head;
+        Node<T> prev = null;
+
+        // Si el nodo a eliminar es el head
+        if(current != null && current.value == key){
+            head = current.next;
+            return current.value;
+        }
+
+        while(current != null && current.value != key){
+            prev = current;
+            current = current.next;
+        }
+
+        if(current == null){
+            return null;
+        }
+
+        prev.next = current.next;
+        return current.value;
+    }
+
+    // Devuelve el tamaño de la lista haciendo un recorrido y conteo
+    public int size(){
+        int count = 0;
+        Node<T> current = head;
+        while(current != null){
+            count++;
+            current = current.next;
+        }
+        return count;
+    }
+
+    // Verifica si la lista está vacía
+    public boolean isEmpty(){
+        return head == null;
+    }
+
+    // Vacía la lista haciendola apuntar a null
+    public void clear(){
+        head = null;
+    }
+    // Busca la primera coincidencia con el predicado 'p' desde el nodo 'head', lanza NoSuchElementException si no.
+    public static <T> Node<T> firstCoincidence(Node<T> head, Predicate<T> p) {
+        Node<T> current = head;
+
+        while (current != null) {
+            if (p.test(current.value)) {
+                return current; // Retorna inmediatamente al encontrar el primero
+            }
+            current = current.next;
+        }
+
+        return null; // No se encontró ninguna coincidencia
+    }
+    // Busca la última coincidencia con el predicado 'p' desde el nodo 'head', lanza NoSuchElementException si no.
+    public static <T> Node<T> lastCoincidence(Node<T> head, Predicate<T> p) {
+        Node<T> current = head;
+        Node<T> lastMatch = null; // Guarda la última coincidencia encontrada
+
+        while (current != null) {
+            if (p.test(current.value)) {
+                lastMatch = current; // Actualiza cada vez que encuentra una coincidencia
+            }
+            current = current.next;
+        }
+
+        if (lastMatch == null) {
+            return null; // No se encontró ninguna coincidencia
+        }
+        return lastMatch; // Retorna el último encontrado (o null si no hubo coincidencias)
+    }
+
+    // Busca y retorna una lista de todos los nodos que cumplen con el predicado 'p' (aplicado al nodo completo).
+    public static <T> SimpleList<Node<T>> findAll(Node<T> head, Predicate<Node<T>> p) {
+        SimpleList<Node<T>> results = new SimpleList<>();
+        Node<T> current = head;
+
+        while (current != null) {
+            if (p.test(current)) {
+                results.pushBack(current); // Agrega el nodo completo a la lista
+            }
+            current = current.next;
+        }
+
+        return results; // Retorna lista vacía si no hay coincidencias
+    }
+
+    // Método de instancia: Busca la primera coincidencia usando el head de esta lista.
+    public Node<T> firstCoincidence(Predicate<T> p) {
+        return firstCoincidence(this.head, p);
+    }
+
+    // Método de instancia: Busca la última coincidencia usando el head de esta lista.
+    public Node<T> lastCoincidence(Predicate<T> p) {
+        return lastCoincidence(this.head, p);
+    }
+
+    /**
+     * Metodo de instancia para encontrar todas las coincidencias en esta lista.
+     */
+    public SimpleList<Node<T>> findAll(Predicate<Node<T>> p) {
+        return findAll(this.head, p);
+    }
+
+    // Conveniencia: busqueda por valor (firma pedida por la práctica)
+    public Node<T> findFirst(T key) {
+        return firstCoincidence(this.head, v -> v.equals(key));
+    }
+
+    // Conveniencia: ultima coincidencia por valor
+    public Node<T> findLast(T key) {
+        return lastCoincidence(this.head, v -> v.equals(key));
+    }
+}
