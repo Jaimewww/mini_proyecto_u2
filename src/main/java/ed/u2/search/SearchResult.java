@@ -24,6 +24,7 @@ public class SearchResult {
 
     @Override
     public String toString() {
-        return "{Index: " + index + ", Value: " + value + "}";
+        System.out.println("----------------------------------------");
+        return "Índice: " + index + "\n" +"Valor: " + value + ".";
     }
 }

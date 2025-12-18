@@ -18,10 +18,11 @@ public class SortStats {
     }
 
     public void printSummary() {
-        System.out.println("\n--- Resumen: " + algorithmName + " ---");
-        System.out.println("Tiempo (mediana): " + timeNano + " ns (" + (timeNano / 1_000_000.0) + " ms)");
+        System.out.println("----------------------------------------");
+        System.out.println("\nResumen: " + algorithmName + "\n");
+        System.out.println("Tiempo de ejecución: " + timeNano + " ns (" + (timeNano / 1_000_000.0) + " ms)");
         System.out.println("Comparaciones   : " + comparisons);
         System.out.println("Intercambios    : " + swaps);
-        System.out.println("------------------------------");
+        System.out.println("----------------------------------------");
     }
 }

@@ -99,6 +99,50 @@ public class ArraySearch {
     }
 
     /**
+     * Encuentra el índice del primer elemento >= target (lower bound).
+     * Utilizado para búsquedas de rango en arreglos ordenados.
+     *
+     * @param array  Arreglo ordenado de elementos Comparable
+     * @param target Elemento de referencia para el rango
+     * @return índice del primer elemento >= target, o array.length si no existe
+     */
+    public static int lowerBoundRange(Comparable[] array, Comparable target) {
+        int left = 0, right = array.length;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (array[mid].compareTo(target) < 0) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+    /**
+     * Encuentra el índice del primer elemento > target (upper bound).
+     * Utilizado para búsquedas de rango en arreglos ordenados.
+     *
+     * @param array  Arreglo ordenado de elementos Comparable
+     * @param target Elemento de referencia para el rango
+     * @return índice del primer elemento > target, o array.length si no existe
+     */
+    public static int upperBoundRange(Comparable[] array, Comparable target) {
+        int left = 0, right = array.length;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (array[mid].compareTo(target) <= 0) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+    /**
      * Búsqueda secuencial utilizando la técnica del centinela.
      * Reduce el número de comparaciones eliminando la verificación de límites.
      *
@@ -136,4 +180,6 @@ public class ArraySearch {
 
         return -1; // Elemento no encontrado
     }
+
+    
 }
